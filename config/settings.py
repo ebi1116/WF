@@ -35,7 +35,12 @@ _allowed_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS")
 if not DEBUG and not _allowed_hosts:
     from django.core.exceptions import ImproperlyConfigured
     raise ImproperlyConfigured("Set DJANGO_ALLOWED_HOSTS before running with DJANGO_DEBUG=0.")
-ALLOWED_HOSTS = [host.strip() for host in (_allowed_hosts or "localhost,127.0.0.1,[::1]").split(",") if host.strip()]
+ALLOWED_HOSTS = ["webfixer.services", "3.7.248.103"]
+ALLOWED_HOSTS += [
+    host.strip()
+    for host in (_allowed_hosts or "localhost,127.0.0.1,[::1]").split(",")
+    if host.strip()
+]
 
 # Change these values to choose the credentials for the private /projects area.
 PROJECTS_USERNAME = os.environ.get("PROJECTS_USERNAME", "ebi")
