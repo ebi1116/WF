@@ -47,9 +47,11 @@ PROJECTS_USERNAME = os.environ.get("PROJECTS_USERNAME", "ebi")
 PROJECTS_PASSWORD = os.environ.get("PROJECTS_PASSWORD", "Ebi@ebi638049")
 
 # Optional issuer details printed on quotation PDFs.
+CONTACT_PHONE = "6380493527"
+CONTACT_EMAIL = "webfixer.in@gmail.com"
 QUOTATION_BUSINESS_NAME = os.environ.get("QUOTATION_BUSINESS_NAME", "WebFixer")
-QUOTATION_BUSINESS_EMAIL = os.environ.get("QUOTATION_BUSINESS_EMAIL", "")
-QUOTATION_BUSINESS_PHONE = os.environ.get("QUOTATION_BUSINESS_PHONE", "")
+QUOTATION_BUSINESS_EMAIL = os.environ.get("QUOTATION_BUSINESS_EMAIL", CONTACT_EMAIL)
+QUOTATION_BUSINESS_PHONE = os.environ.get("QUOTATION_BUSINESS_PHONE", CONTACT_PHONE)
 QUOTATION_BUSINESS_ADDRESS = os.environ.get("QUOTATION_BUSINESS_ADDRESS", "")
 QUOTATION_BUSINESS_GSTIN = os.environ.get("QUOTATION_BUSINESS_GSTIN", "")
 
@@ -93,6 +95,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.core.context_processors.business_contact',
             ],
         },
     },
@@ -160,7 +163,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = CONTACT_EMAIL
+# Set this to a Gmail App Password in the environment on the server.
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = f"WebFixer <{CONTACT_EMAIL}>"
 
 if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
