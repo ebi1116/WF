@@ -1,0 +1,15 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-5 py-5">
+            <div class="col-lg-4">
+                <a class="brand-mark footer-brand" href="{% url 'home' %}">WEBFIXER<span>.</span></a>
+                <p class="footer-tagline">Build. Innovate. Deploy.</p>
+                <p class="footer-copy">WebFixer creates thoughtful digital experiences, online stores and cloud solutions that help businesses move forward.</p>
+            </div>
+            <div class="col-6 col-lg-2"><h2 class="footer-heading">Explore</h2><ul class="footer-links"><li><a href="{% url 'about' %}">About us</a></li><li><a href="{% url 'services:list' %}">Services</a></li><li><a href="{% url 'portfolio:list' %}">Portfolio</a></li><li><a href="{% url 'contact:contact' %}">Contact</a></li></ul></div>
+            <div class="col-6 col-lg-3"><h2 class="footer-heading">Our services</h2><ul class="footer-links"><li><a href="{% url 'services:list' %}#website-development">Website development</a></li><li><a href="{% url 'services:list' %}#ecommerce-development">E-commerce development</a></li><li><a href="{% url 'services:list' %}#cloud-services">Cloud services</a></li></ul></div>
+            <div class="col-lg-3"><h2 class="footer-heading">Have a project?</h2><p class="footer-copy">Tell us what you’re working on. We’ll help you find a practical next step.</p><a class="footer-cta" href="{% url 'contact:quote' %}">Start a conversation <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i></a></div>
+        </div>
+        <div class="footer-bottom"><span>© {% now "Y" %} WebFixer. All rights reserved.</span><span>Built with care for the web.</span></div>
+    </div>
+</footer>

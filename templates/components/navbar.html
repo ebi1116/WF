@@ -1,0 +1,18 @@
+{% load static %}
+<a class="skip-link" href="#main-content">Skip to content</a>
+<nav class="navbar navbar-expand-lg navbar-dark site-nav sticky-top" aria-label="Main navigation">
+    <div class="container">
+        <a class="navbar-brand brand-mark" href="{% url 'home' %}" aria-label="WebFixer home">WEBFIXER<span>.</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="primaryNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.namespace == 'services' %}active{% endif %}" href="{% url 'services:list' %}">Services</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.namespace == 'portfolio' %}active{% endif %}" href="{% url 'portfolio:list' %}">Portfolio</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact:contact' %}">Contact</a></li>
+                <li class="nav-item ms-lg-2"><a class="btn btn-primary-orange nav-cta" href="{% url 'contact:quote' %}">Get a Quote <i class="fa-solid fa-arrow-up-right-from-square ms-1" aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

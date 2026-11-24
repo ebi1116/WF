@@ -1,0 +1,39 @@
+{% extends "public/base.html" %}{% load static %}
+{% block title %}Create Quotation | WebFixer{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/private.css' %}?v=3">{% endblock %}
+{% block content %}
+<section class="private-wrap"><div class="private-content private-form-page quotation-page">
+    <a class="private-back" href="{% url 'contact:quotation_dashboard' %}"><i class="fa-solid fa-arrow-left"></i> Back to quotations</a>
+    <span class="section-kicker">Private workspace · Quotation builder</span><h1>Create a quotation</h1><p>Add your client, work items and pricing. You can download a PDF after saving.</p>
+    <form method="post" class="private-form project-entry-form quotation-form" id="quotation-form">{% csrf_token %}
+        <div class="form-section-title form-wide"><span>01</span><div><h2>Client details</h2><p>Who is this quotation for?</p></div></div>
+        <label>Customer name<input name="customer_name" maxlength="160" required placeholder="e.g. Alex Kumar"></label>
+        <label>Company <span>(optional)</span><input name="customer_company" maxlength="160" placeholder="Business or company name"></label>
+        <label>Email <span>(optional)</span><input type="email" name="customer_email" placeholder="name@company.com"></label>
+        <label>Phone <span>(optional)</span><input name="customer_phone" maxlength="40" placeholder="Contact number"></label>
+        <label class="form-wide">Billing address <span>(optional)</span><textarea name="customer_address" rows="2" placeholder="Address shown on the quotation"></textarea></label>
+        <div class="form-section-title form-wide"><span>02</span><div><h2>Quotation items</h2><p>List the work, quantity and price.</p></div></div>
+        <div class="quotation-items form-wide"><div class="quotation-items-head"><span>DESCRIPTION</span><span>QTY</span><span>UNIT PRICE (₹)</span><span></span></div>
+            <div id="quotation-rows"><div class="quotation-row"><input aria-label="Item description" name="item_description" maxlength="48" required placeholder="Website design and development"><input aria-label="Quantity" type="number" name="item_quantity" value="1" min="0.01" step="0.01" required><input aria-label="Unit price" type="number" name="item_price" value="0" min="0" step="0.01" required><button class="remove-quotation-row" type="button" aria-label="Remove item" disabled><i class="fa-regular fa-trash-can"></i></button></div></div>
+            <button class="add-quotation-row" type="button" id="add-quotation-row"><i class="fa-solid fa-plus"></i> Add item</button>
+        </div>
+        <div class="form-section-title form-wide"><span>03</span><div><h2>Dates and totals</h2><p>Set the offer period and optional adjustments.</p></div></div>
+        <label>Issue date<input type="date" name="issue_date" required></label>
+        <label>Valid until <span>(optional)</span><input type="date" name="valid_until"></label>
+        <label>Discount (₹)<input type="number" name="discount" value="0" min="0" step="0.01"></label>
+        <label>Tax / GST (%)<input type="number" name="tax_percent" value="0" min="0" max="100" step="0.01"></label>
+        <label class="form-wide">Notes and terms <span>(optional)</span><textarea name="notes" rows="3" placeholder="Payment terms, delivery timeline, or other notes"></textarea></label>
+        <div class="quotation-total-preview form-wide"><span>Estimated total</span><strong id="quotation-total">₹0.00</strong><small>Calculated from items, discount and tax</small></div>
+        <div class="form-wide form-actions"><button class="btn btn-primary-orange" type="submit"><i class="fa-solid fa-file-arrow-down"></i> Save &amp; download PDF</button><a class="btn btn-outline-light" href="{% url 'contact:quotation_dashboard' %}">Cancel</a></div>
+    </form>
+</div></section>
+{% endblock %}
+{% block extra_js %}<script>
+(()=>{
+  const rows=document.getElementById('quotation-rows'), add=document.getElementById('add-quotation-row'), total=document.getElementById('quotation-total'), form=document.getElementById('quotation-form');
+  const calc=()=>{let subtotal=0;rows.querySelectorAll('.quotation-row').forEach(r=>subtotal+=(Number(r.querySelector('[name=item_quantity]').value)||0)*(Number(r.querySelector('[name=item_price]').value)||0));const discount=Number(form.elements.discount.value)||0,tax=Number(form.elements.tax_percent.value)||0;total.textContent='₹'+(Math.max(0,subtotal-discount)*(1+tax/100)).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});};
+  const sync=()=>{const all=rows.querySelectorAll('.quotation-row');all.forEach(r=>r.querySelector('.remove-quotation-row').disabled=all.length===1);add.disabled=all.length>=12;};
+  add.addEventListener('click',()=>{if(rows.children.length>=12)return;const row=document.createElement('div');row.className='quotation-row';row.innerHTML='<input aria-label="Item description" name="item_description" maxlength="48" required placeholder="Service or deliverable"><input aria-label="Quantity" type="number" name="item_quantity" value="1" min="0.01" step="0.01" required><input aria-label="Unit price" type="number" name="item_price" value="0" min="0" step="0.01" required><button class="remove-quotation-row" type="button" aria-label="Remove item"><i class="fa-regular fa-trash-can"></i></button>';rows.append(row);sync();calc();row.querySelector('input').focus();});
+  rows.addEventListener('click',e=>{const button=e.target.closest('.remove-quotation-row');if(button&&!button.disabled){button.closest('.quotation-row').remove();sync();calc();}});form.addEventListener('input',calc);const today=new Date();form.elements.issue_date.value=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);sync();calc();
+})();
+</script>{% endblock %}

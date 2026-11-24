@@ -1,0 +1,15 @@
+{% extends "public/base.html" %}{% load static %}
+{% block title %}Projects Login | WebFixer{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/private.css' %}?v=2">{% endblock %}
+{% block content %}
+<section class="private-wrap"><div class="private-panel login-panel">
+    <span class="section-kicker">Private workspace</span><h1>Projects login</h1>
+    <p>Sign in to view project payments, costs and timelines.</p>
+    {% if error %}<div class="private-error" role="alert">Incorrect username or password. Check your credentials and try again.</div>{% endif %}
+    <form method="post" class="private-form">{% csrf_token %}<input type="hidden" name="next" value="{{ next }}">
+        <label>Username<input name="username" autocomplete="username" required autofocus></label>
+        <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+        <button class="btn btn-primary-orange" type="submit">Sign in</button>
+    </form>
+</div></section>
+{% endblock %}

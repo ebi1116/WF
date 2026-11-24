@@ -1,0 +1,10 @@
+{% extends "public/base.html" %}{% load static %}
+{% block title %}Quotations | WebFixer{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/private.css' %}?v=3">{% endblock %}
+{% block content %}
+<section class="private-wrap"><div class="private-content">
+    <div class="private-heading"><div><span class="section-kicker">Private workspace</span><h1>Quotations</h1><p>Create and download professional client quotations.</p></div><a class="btn btn-primary-orange" href="{% url 'contact:quotation_create' %}"><i class="fa-solid fa-plus"></i> New quotation</a></div>
+    {% if quotations %}<div class="quotation-list">{% for quote in quotations %}<article class="quotation-card"><div class="quotation-icon"><i class="fa-regular fa-file-lines"></i></div><div class="quotation-main"><span>{{ quote.number }}</span><h2>{{ quote.customer_name }}{% if quote.customer_company %} <small>· {{ quote.customer_company }}</small>{% endif %}</h2><p>Issued {{ quote.issue_date|date:"d M Y" }}{% if quote.valid_until %} · Valid until {{ quote.valid_until|date:"d M Y" }}{% endif %}</p></div><strong class="quotation-total">₹{{ quote.total|floatformat:2 }}</strong><a class="btn btn-outline-light" href="{% url 'contact:quotation_pdf' quote.pk %}"><i class="fa-solid fa-download"></i> PDF</a></article>{% endfor %}</div>
+    {% else %}<div class="empty-state"><div class="empty-state-icon"><i class="fa-regular fa-file-lines"></i></div><h3>No quotations yet</h3><p>Add the client and service details, then download a ready-to-send PDF.</p><a class="btn btn-primary-orange" href="{% url 'contact:quotation_create' %}">Create a quotation</a></div>{% endif %}
+</div></section>
+{% endblock %}

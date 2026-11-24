@@ -1,0 +1,20 @@
+{% extends "public/base.html" %}{% load static %}
+{% block title %}Add Project | WebFixer{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/private.css' %}?v=2">{% endblock %}
+{% block content %}
+<section class="private-wrap"><div class="private-content private-form-page">
+    <a class="private-back" href="{% url 'portfolio:projects' %}"><i class="fa-solid fa-arrow-left"></i> Back to projects</a>
+    <span class="section-kicker">Private workspace</span><h1>Add a project</h1><p>Save the project details, payments and schedule.</p>
+    <form method="post" class="private-form project-entry-form">{% csrf_token %}
+        <label>Project name<input name="name" value="{{ values.name|default:'' }}" maxlength="160" required></label>
+        <label>Client name <span>(optional)</span><input name="client" value="{{ values.client|default:'' }}" maxlength="160"></label>
+        <label class="form-wide">Description <span>(optional)</span><textarea name="description" rows="3">{{ values.description|default:'' }}</textarea></label>
+        <label>Total payment (₹)<input type="number" name="total_payment" value="{{ values.total_payment|default:'0' }}" min="0" step="0.01" required></label>
+        <label>Payment received (₹)<input type="number" name="amount_received" value="{{ values.amount_received|default:'0' }}" min="0" step="0.01" required></label>
+        <label>Expenses / cost (₹)<input type="number" name="expenses" value="{{ values.expenses|default:'0' }}" min="0" step="0.01" required></label>
+        <label>Start date<input type="date" name="start_date" value="{{ values.start_date|default:'' }}"></label>
+        <label>End date<input type="date" name="end_date" value="{{ values.end_date|default:'' }}"></label>
+        <div class="form-wide form-actions"><button class="btn btn-primary-orange" type="submit">Save project</button><a class="btn btn-outline-light" href="{% url 'portfolio:projects' %}">Cancel</a></div>
+    </form>
+</div></section>
+{% endblock %}

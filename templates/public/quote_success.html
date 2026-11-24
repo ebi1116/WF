@@ -1,0 +1,3 @@
+{% extends "public/base.html" %}
+{% block title %}Request Received | WebFixer{% endblock %}
+{% block content %}<section class="content-section"><div class="container"><div class="content-panel success-panel"><div class="success-icon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div><span class="section-kicker">Request received</span><h1>Thanks for sharing your project.</h1><p>We’ve saved your request. Keep this reference for your records:</p><div class="reference-code">{{ reference }}</div><p class="mt-4">The WebFixer team will review the details and follow up about the next steps. This is an enquiry reference, not a quotation.</p><a class="btn btn-outline-light mt-3" href="{% url 'home' %}">Return home</a></div></div></section>{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "public/base.html" %}
+{% block title %}{{ project.title }} | WebFixer Portfolio{% endblock %}
+{% block meta_description %}{{ project.description|truncatewords:24 }}{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container"><span class="section-kicker">{{ project.get_category_display }}</span><h1>{{ project.title }}</h1><p>{{ project.description|truncatewords:30 }}</p></div></section>
+<section class="content-section"><div class="container">{% if project.thumbnail %}<img class="project-detail-image mb-5" src="{{ project.thumbnail.url }}" alt="{{ project.title }} project preview">{% endif %}<div class="service-detail-grid"><div><h2>Project overview</h2><p class="lead-copy">{{ project.description }}</p></div><aside class="service-detail-aside"><h2>Have a similar challenge?</h2><p>Let’s discuss a solution shaped around your goals.</p><a class="btn btn-primary-orange" href="{% url 'contact:quote' %}">Start a Project</a>{% if project.project_url %}<a class="d-block mt-3 text-link" href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer">Visit project <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i></a>{% endif %}</aside></div></div></section>
+{% endblock %}

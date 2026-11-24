@@ -1,0 +1,3 @@
+{% extends "public/base.html" %}
+{% block title %}Something Went Wrong | WebFixer{% endblock %}
+{% block content %}<section class="content-section"><div class="container"><div class="content-panel success-panel"><span class="section-kicker">500 error</span><h1>Something went wrong.</h1><p>Please try again in a moment. If the issue continues, get in touch with WebFixer.</p><a class="btn btn-primary-orange mt-3" href="{% url 'contact:contact' %}">Contact us</a></div></div></section>{% endblock %}
